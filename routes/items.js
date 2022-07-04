@@ -4,12 +4,16 @@ const router = Router();
 const itemData = require('../dataInterface/items');
 
 router.get("/", (req, res, next) => {
-  res.json(itemData.getAll())
+  res.status(200).send(itemData.getAll())
 });
 
 router.get("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const theItem = itemData.getById(req.params.id)
+  if(theItem){
+    res.status(200).send(theItem)
+  } else {
+    res.status(404).send({ error: `no item found with id ${req.params.id}` });
+  }
 });
 
 router.post("/", (req, res, next) => {
@@ -18,14 +22,20 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const newAttributes = req.body
+  delete newAttributes.id
+  let updatedItem = itemData.updateById(req.params.id, newAttributes)
+  if(updatedItem){
+    res.status(200).send(updatedItem)
+  } else {
+    res.status(404).send({ error: `no item found with id ${req.params.id}` });
+  }
 });
 
 
 router.delete("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const updatedList = itemData.deleteById(req.params.id)
+  res.status(200).send({updatedList: updatedList})
 });
 
 module.exports = router;
