@@ -4,8 +4,9 @@ const router = Router();
 const movieData = require('../dataInterface/movies');
 
 // curl http://localhost:5000/movies
-router.get("/", (req, res, next) => {
-  res.status(200).send(movieData.getAll())
+router.get("/", async (req, res, next) => {
+  let movieList = await movieData.getAll()
+  res.status(200).send(movieList)
 });
 
 // curl http://localhost:5000/movies/7
@@ -33,7 +34,7 @@ router.put("/:id", async (req, res, next) => {
 // curl -X DELETE http://localhost:5000/movies/7
 router.delete("/:id", (req, res, next) => {
   const updatedList = movieData.deleteById(req.params.id)
-  res.status(200).send({updatedList: updatedList})
+  res.status(200).send(updatedList)
 });
 
 module.exports = router;
