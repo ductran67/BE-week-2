@@ -35,7 +35,7 @@ router.put("/:id", async (req, res, next) => {
 // curl -X DELETE http://localhost:5000/items/7
 router.delete("/:id", (req, res, next) => {
   const updatedList = itemData.deleteById(req.params.id)
-  res.status(200).send({updatedList: updatedList})
+  res.status(200).send(updatedList)
 });
 
 module.exports = router;
